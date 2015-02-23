@@ -1,21 +1,35 @@
-<%= form_for(@summoner) do |f| %>
-  <% if @summoner.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@summoner.errors.count, "error") %> prohibited this summoner from being saved:</h2>
+<%= form_for(@summoner, :html => { :multipart => true, :class => 'form-horizontal'}) do |f| %>
+	<% if @summoner.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@summoner.errors.count, "error") %> Summoner could not be safed:</h2>
+			<ul>
+				<% @summoner.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
 
-      <ul>
-      <% @summoner.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	<fieldset>
+		<div class="field form-group">
+			<%= f.label :name, :class => 'col-lg-2 control-label' %>
+			<div class="col-lg-2">
+				<%= f.text_field :name, :class => 'form-control' %>
+			</div>
+		</div>
+		<div class="field form-group">
+			<%= f.label :region, :class => 'col-lg-2 control-label' %>
+			<div class="col-lg-4">
+				<%=  f.select :region, options_for_select(%w[euw br eune kr lan las na oce ru tr]), :class => 'collection_select' %>
+			</div>
+		</div>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+		<div class="actions form-group">
+			<div class="col-lg-offset-2 col-lg-10">
+				<%= f.submit nil, :class => 'btn btn-primary' %>
+				<%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+					summoners_path, :class => 'btn btn-warning' %>
+			</div>
+		</div>
+	</fieldset>
 <% end %>

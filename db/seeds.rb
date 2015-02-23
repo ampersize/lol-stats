@@ -6,7 +6,3 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# Summoners
-Summoner.create!(name: 'ampersize', region: 'euw')
-Summoner.create!(name: 'ashyda', region: 'euw')
-Summoner.create!(name: 'patliebear', region: 'euw')

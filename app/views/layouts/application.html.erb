@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>LolStats</title>
-<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= content_for?(:title) ? yield(:title) : "LoL Statistics" %></title>
+<meta name="description" content="<%= content_for?(:description) ? yield(:description) : "LoL Statistics" %>">
+<%= stylesheet_link_tag "application" %>
+<%= javascript_include_tag "application"  %>
 <%= csrf_meta_tags %>
 </head>
 <body role="document">
+<main class="container" role="main">
+<%= render 'layouts/navigation' %>
 
-<%= render 'shared/navigation' %>
-
-<div class="container theme-showcase" role="main">
-		<%= yield %>
-</div>
-
+	<%= flash_messages %>
+	<%= yield %>
+</main>
 </body>
 </html>

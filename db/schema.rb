@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222184944) do
+ActiveRecord::Schema.define(version: 20150222193731) do
 
   create_table "summoners", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "region"
+    t.string   "summoner_id"
   end
 
 end
