@@ -27,7 +27,7 @@ If you don't have an api key get one on https://developer.riotgames.com
 $ bundle install
 $ rake db:migration
 $ rails server
-```A
+```
 
 ## Tests
 
