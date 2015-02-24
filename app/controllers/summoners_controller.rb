@@ -41,13 +41,13 @@ class SummonersController < ApplicationController
 				@summoner.summoner_id = sumobj.id.to_s
 				Rails.logger.info "Found Summoner #{sumname} with ID: #{sumobj.id.to_s}"
 				if @summoner.save
-					format.html { redirect_to summoners_path, success: 'Summoner was successfully created.' }
+					format.html { redirect_to summoners_path, success: 'Summoner created.' }
 				else
-					format.html { redirect_to summoners_path, error: 'Summoner could not be created.' }
+					format.html { render action: 'new', error: 'Summoner could not becreated.' }
 				end
 			else
 				Rails.logger.info "No summoner"
-				format.html { render action: 'new', error: 'Summoner could not be found.' }
+					format.html { render action: 'new', error: 'Summoner could not be found.' }
 			end
 		end
 	end
@@ -71,7 +71,7 @@ class SummonersController < ApplicationController
 		end
 	end
 
-  # Get match history
+	# Get match history
 	def summary
 		@summoner = Summoner.find(params[:id])
 		client = RiotLolApi::Client.new(:region => @summoner.region)
