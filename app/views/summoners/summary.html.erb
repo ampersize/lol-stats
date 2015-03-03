@@ -20,29 +20,19 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% methods = item.aggregated_stats.public_methods %>
-		<% methods.each do |method| %>
-			<% if (method.to_s.include? "max") || 
-					(method.to_s.include? "min") || 
-					(method.to_s.include? "average") || 
-					(method.to_s.include? "total")
-				%>
-			<% unless method.to_s.include? "=" %>
-				<% statitem = item.aggregated_stats.send(method.to_sym) %>
-				<% unless statitem.to_s.empty? %>
-					<tr>
-						<td><%= method.to_s %></td>
-						<td><%= item.aggregated_stats.send(method.to_sym) %></td>
-					</tr>
-				<% end %>
+			<% methods = item.aggregated_stats.instance_variables %>
+			<% methods.map!{ |element| element.to_s.gsub(/@/, '') } %>
+			<% methods.each do |method| %>
+				<tr>
+					<td><%= method.to_s %></td>
+					<td><%= item.aggregated_stats.send(method.to_sym) %></td>
+				</tr>
 			<% end %>
-		<% end %>
-	<% end %>
-	</tbody>
-</table>
-<p class="text-right"<small>last update: <%= Time.at(item.modify_date / 1000) %></span></p>
-<hr />
-<br />
+		</tbody>
+	</table>
+	<p class="text-right"<small>last update: <%= Time.at(item.modify_date / 1000) %></span></p>
+	<hr />
+	<br />
 <% end %>
 
 <div class="form-actions">
