@@ -26,6 +26,11 @@ class SummonersController < ApplicationController
 	# POST /summoners
 	# POST /summoners.json
 	def create
+		if (defined?(RiotLolApi::TOKEN)).nil?
+			Rails.logger.debug "Please set API TOKEN"
+			flash[:error] = "Please set your API token."
+			redirect_to summoners_path and return false
+		end
 		@summoner = Summoner.new(summoner_params)
 		sumname = params[:summoner][:name]
 		sumregion = params[:summoner][:region]
@@ -41,13 +46,16 @@ class SummonersController < ApplicationController
 				@summoner.summoner_id = sumobj.id.to_s
 				Rails.logger.info "Found Summoner #{sumname} with ID: #{sumobj.id.to_s}"
 				if @summoner.save
-					format.html { redirect_to summoners_path, success: 'Summoner created.' }
+					flash[:success] = "Summoner created successful"
+					format.html { redirect_to summoners_path }
 				else
-					format.html { render action: 'new', error: 'Summoner could not becreated.' }
+					flash[:error] = "Summoner could not be created successful"
+					format.html { render action: 'new' }
 				end
 			else
-				Rails.logger.info "No summoner"
-					format.html { render action: 'new', error: 'Summoner could not be found.' }
+				Rails.logger.info "Summoner could not be found"
+				flash[:error] = "Summoner could not be found"
+				format.html { render action: 'new' }
 			end
 		end
 	end

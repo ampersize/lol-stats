@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20150222193731) do
 
-  create_table "summoners", force: true do |t|
+  create_table "summoners", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
