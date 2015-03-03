@@ -86,6 +86,14 @@ class SummonersController < ApplicationController
 		sumobj = client.get_summoner_by_name @summoner.name
 		@stats = sumobj.stat_summaries
 	end
+	
+	def games 
+		@summoner = Summoner.find(params[:id])
+		client = RiotLolApi::Client.new(:region => @summoner.region)
+		sumobj = client.get_summoner_by_name @summoner.name
+		@games = sumobj.games
+		@champions = client.get_all_champions({},false,"en_US")
+	end
 
 	private
 	# Use callbacks to share common setup or constraints between actions.

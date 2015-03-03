@@ -23,6 +23,7 @@
         <td><%=l summoner.created_at %></td>
 				<td>
 					<%= link_to "Summary", summoner_summary_path(:id => summoner.id), :class => 'btn btn-default btn-xs' %>
+					<%= link_to "Games", summoner_games_path(:id => summoner.id), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_summoner_path(summoner), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

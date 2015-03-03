@@ -1,6 +1,7 @@
 LolStats::Application.routes.draw do
   resources :summoners
 	get 'summoners/:id/summary' => 'summoners#summary', as: :summoner_summary
+	get 'summoners/:id/games' => 'summoners#games', as: :summoner_games
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

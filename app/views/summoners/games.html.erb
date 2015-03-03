@@ -1,0 +1,71 @@
+<%- model_class = Summoner -%>
+<div class="page-header">
+	<h1>Recent Games for: <%= @summoner.name %></h1>
+</div>
+
+<table  class="table table-striped">
+	<thead>
+		<tr>
+			<th>Mode</th>
+			<th>Type</th>
+			<th>Subtype</th>
+			<th>Champion</th>
+			<th>IP</th>
+			<th>Date</th>
+			<th>Team</th>
+			<th>Opponents</th>
+			<th>Statistics</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @games.each do |game| %>
+			<tr>
+				<td><%= game.game_mode %></td>
+				<td><%= game.game_type %></td>
+				<td><%= game.sub_type %></td>
+				<% champ = @champions.find { |champion| champion.id == game.champion_id } %>
+				<td><%= champ.name %></td>
+				<td><%= game.ip_earned %></td>
+				<td><%= Time.at(game.create_date / 1000) %></td>
+				<% players = game.fellow_players %>
+				<td>
+					<ul>
+						<% mates = game.fellow_players.select { |n| n.team_id == game.team_id } %>
+						<% mates.each do |player| %>
+							<li>
+							<%= player.summoner_id %> with 
+							<%  fchamp = @champions.find { |champion| champion.id == player.champion_id } %>
+							<%= fchamp.name %>
+							</li>
+						<% end %>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<% mates = game.fellow_players.select { |n| n.team_id != game.team_id } %>
+						<% mates.each do |player| %>
+							<li>
+							<%= player.summoner_id %> with 
+							<%  fchamp = @champions.find { |champion| champion.id == player.champion_id } %>
+							<%= fchamp.name %>
+							</li>
+						<% end %>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<% stats = game.stats.instance_variables %>
+						<% stats.map!{ |element| element.to_s.gsub(/@/, '') } %>
+						<% stats.each do |method| %>
+							<li><%= method %>: <%= game.stats.send(method.to_sym) %> </li>
+						<% end %>
+					</ul>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<div class="form-actions">
+	<%= link_to t('.back', :default => t("helpers.links.back")), summoners_path, :class => 'btn btn-default'  %>
+</div>
