@@ -16,7 +16,6 @@ class SummonersController < ApplicationController
 	# GET /summoners/new
 	def new
 		@summoner = Summoner.new
-
 	end
 
 	# GET /summoners/1/edit

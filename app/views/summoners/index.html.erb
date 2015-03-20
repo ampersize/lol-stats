@@ -20,7 +20,7 @@
         <td><%= summoner.name %></td>
         <td><%= summoner.region %></td>
         <td><%= summoner.summoner_id %></td>
-        <td><%=l summoner.created_at %></td>
+        <td><%= summoner.created_at %></td>
 				<td>
 					<%= link_to "Summary", summoner_summary_path(:id => summoner.id), :class => 'btn btn-default btn-xs' %>
 					<%= link_to "Games", summoner_games_path(:id => summoner.id), :class => 'btn btn-default btn-xs' %>
