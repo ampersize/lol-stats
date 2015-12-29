@@ -1,8 +1,9 @@
 <div class="page-header">
-	<h1>Recent Games for: <%= @summoner.name %></h1>
+	<h1>Recent Games for:
+		<%= @summoner.name %></h1>
 </div>
 
-<table  class="table table-striped">
+<table class="table">
 	<thead>
 		<tr>
 			<th>Mode</th>
@@ -18,52 +19,90 @@
 	</thead>
 	<tbody>
 		<% @games.each do |game| %>
-			<tr>
-				<td><%= game.game_mode %></td>
-				<td><%= game.game_type %></td>
-				<td><%= game.sub_type %></td>
-				<% champ = @champions.find { |champion| champion.id == game.champion_id } %>
-				<td><%= champ.name %></td>
-				<td><%= game.ip_earned %></td>
-				<td><%= Time.at(game.create_date / 1000) %></td>
-				<td>
-					<ul>
+			<% if game.stats.win == false %>
+				<tr bgcolor="#ffbaba">
+				<% else %>
+					<tr bgcolor="#baffaa">
+					<% end %>
+					<td><%= game.game_mode %></td>
+					<td><%= game.game_type %></td>
+					<td><%= game.sub_type %></td>
+					<% champ = @champions.find { |champion| champion.id == game.champion_id } %>
+					<td><%= champ.name %></td>
+					<td><%= game.ip_earned %></td>
+					<td><%= Time.at(game.create_date / 1000) %></td>
+					<td>
 						<% mates = game.fellow_players.select { |n| n.team_id == game.team_id } %>
 						<% mates.each do |player| %>
-							<li>
-							<%= player.summoner_id %> with 
+							<% @ksum = Summoner.find_by(summoner_id: player.summoner_id) %>
+							<% unless @ksum.nil? %>
+								<%= link_to @ksum.name, summoner_games_path(@ksum) %>
+							<% else %>
+								<% # Summoner.create_by_id(:region => "euw", :summoner_id => player.summoner_id) %>
+								<% @foo = Summoner.new() %>
+								<% @foo.summoner_id = player.summoner_id %>
+								<% @foo.region = @summoner.region %>
+								<% client = RiotLolApi::Client.new(:region => @summoner.region) %>
+								<% sumobj = client.get_summoner_by_id player.summoner_id %>
+								<% unless sumobj.nil? %>
+									<% @foo.name = sumobj.name %>
+									<% @foo.save %>
+								<% end %>
+								<%= player.summoner_id  %>
+							<% end %>
 							<%  fchamp = @champions.find { |champion| champion.id == player.champion_id } %>
-							<%= fchamp.name %>
-							</li>
+							(<%= fchamp.name %>)
+							<br />
 						<% end %>
-					</ul>
-				</td>
-				<td>
-					<ul>
-						<% mates = game.fellow_players.select { |n| n.team_id != game.team_id } %>
-						<% mates.each do |player| %>
-							<li>
-							<%= player.summoner_id %> with 
-							<%  fchamp = @champions.find { |champion| champion.id == player.champion_id } %>
-							<%= fchamp.name %>
-							</li>
-						<% end %>
-					</ul>
-				</td>
-				<td>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<% mates = game.fellow_players.select { |n| n.team_id != game.team_id } %>
+							<% mates.each do |player| %>
+								<li>
+									<% @ksum = Summoner.find_by(summoner_id: player.summoner_id) %>
+									<% unless @ksum.nil? %>
+										<%= link_to @ksum.name, summoner_games_path(@ksum) %>
+									<% else %>
+										<% # Summoner.create_by_id(:region => "euw", :summoner_id => player.summoner_id) %>
+										<% @foo = Summoner.new() %>
+										<% @foo.summoner_id = player.summoner_id %>
+										<% @foo.region = @summoner.region %>
+										<% client = RiotLolApi::Client.new(:region => @summoner.region) %>
+										<% sumobj = client.get_summoner_by_id player.summoner_id %>
+										<% unless sumobj.nil? %>
+											<% @foo.name = sumobj.name %>
+											<% @foo.save %>
+										<% end %>
+										<%= player.summoner_id  %>
+									<% end %>
+									<%  fchamp = @champions.find { |champion| champion.id == player.champion_id } %>
+									(<%= fchamp.name %>)
+								</li>
+							<% end %>
+						</ul>
+					</td>
+					<td>
 						<table>
-						<% stats = game.stats.instance_variables %>
-						<% stats.map!{ |element| element.to_s.gsub(/@/, '') } %>
-						<% stats.each do |method| %>
-							<tr>
-								<td><%= method %></td>
-								<td><%= game.stats.send(method.to_sym) %></td>
-							</tr>
-						<% end %>
-					</table>
-				</td>
-			</tr>
-		<% end %>
+							<% stats = game.stats.instance_variables %>
+							<% stats.map!{ |element| element.to_s.gsub(/@/, '') } %>
+							<% stats.each do |method| %>
+								<tr>
+									<% if method =~ /item/ %>
+										<td><%= method %></td>
+										<% itm = @items.find { |item| item.id == game.stats.send(method.to_sym) } %>
+										<td><%= itm.name %></td>
+									<% else %>
+										<td><%= method.gsub("_", " ") %></td>
+										<td><%= game.stats.send(method.to_sym) %></td>
+									<% end %>
+								</tr>
+							<% end %>
+						</table>
+					</td>
+					</tr>
+				<% end %>
 	</tbody>
 </table>
 

@@ -1,5 +1,6 @@
 LolStats::Application.routes.draw do
   resources :summoners
+
 	get 'summoners/:id/summary' => 'summoners#summary', as: :summoner_summary
 	get 'summoners/:id/games' => 'summoners#games', as: :summoner_games
 

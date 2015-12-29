@@ -5,7 +5,11 @@ class SummonersController < ApplicationController
 	# GET /summoners.json
 	def index
 		@summoners = Summoner.all
-
+		if params[:search]
+			@summoners = Summoner.search(params[:search]).order("created_at DESC")
+		else
+			@summoners = Summoner.all.order('created_at ASC')
+		end
 	end
 
 	# GET /summoners/1
@@ -33,12 +37,13 @@ class SummonersController < ApplicationController
 		@summoner = Summoner.new(summoner_params)
 		sumname = params[:summoner][:name]
 		sumregion = params[:summoner][:region]
+		sumid = params[:summoner][:summoner_id]
 		client = RiotLolApi::Client.new(:region => sumregion)
 		Rails.logger.debug client.inspect
 		# Read Summoner name and then use it to get the corresponding
 		# summoner ID from riot
 		Rails.logger.info "Searching for summoner name " + sumname
-		sumobj = client.get_summoner_by_name sumname
+		sumobj = client.get_summoner_by_id sumid
 		Rails.logger.debug sumobj.inspect
 		respond_to do |format|
 			if (sumobj != nil)
@@ -82,16 +87,18 @@ class SummonersController < ApplicationController
 	def summary
 		@summoner = Summoner.find(params[:id])
 		client = RiotLolApi::Client.new(:region => @summoner.region)
-		sumobj = client.get_summoner_by_name @summoner.name
+		sumobj = client.get_summoner_by_id @summoner.summoner_id
 		@stats = sumobj.stat_summaries
 	end
-	
-	def games 
+
+	def games
 		@summoner = Summoner.find(params[:id])
 		client = RiotLolApi::Client.new(:region => @summoner.region)
-		sumobj = client.get_summoner_by_name @summoner.name
+		sumobj = client.get_summoner_by_id @summoner.summoner_id
+		@summoners = Summoner.all
 		@games = sumobj.games
 		@champions = client.get_all_champions({},false,"en_US")
+		@items = client.get_all_items({},"en_US")
 	end
 
 	private
