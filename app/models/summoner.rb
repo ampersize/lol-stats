@@ -1,4 +1,4 @@
-class Summoner < ActiveRecord::Base
+class Summoner < ApplicationRecord
 	validates :name, uniqueness: true
 
 	def self.search(search)
