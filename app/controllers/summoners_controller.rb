@@ -1,6 +1,11 @@
 class SummonersController < ApplicationController
 	before_action :set_summoner, only: [:show, :edit, :update, :destroy]
 
+	Taric.configure! do |config|
+		  config.api_key = 'c3ccb88e-109e-4d1c-81f9-43be4fe90862'
+			# config.adapter = :typhoeus # default is Faraday.default_adapter
+	end
+
 	# GET /summoners
 	# GET /summoners.json
 	def index
@@ -29,7 +34,7 @@ class SummonersController < ApplicationController
 	# POST /summoners
 	# POST /summoners.json
 	def create
-		if (defined?(RiotLolApi::TOKEN)).nil?
+		if (defined?(RIOT_API_KEY)).nil?
 			Rails.logger.debug "Please set API TOKEN"
 			flash[:error] = "Please set your API token."
 			redirect_to summoners_path and return false
@@ -37,18 +42,16 @@ class SummonersController < ApplicationController
 		@summoner = Summoner.new(summoner_params)
 		sumname = params[:summoner][:name]
 		sumregion = params[:summoner][:region]
-		sumid = params[:summoner][:summoner_id]
-		client = RiotLolApi::Client.new(:region => sumregion)
-		Rails.logger.debug client.inspect
+		client = Taric.client(:region => sumregion)
 		# Read Summoner name and then use it to get the corresponding
 		# summoner ID from riot
 		Rails.logger.info "Searching for summoner name " + sumname
-		sumobj = client.get_summoner_by_id sumid
+		sumobj = client.summoners_by_names(summoner_names: sumname).body
 		Rails.logger.debug sumobj.inspect
 		respond_to do |format|
-			if (sumobj != nil)
-				@summoner.summoner_id = sumobj.id.to_s
-				Rails.logger.info "Found Summoner #{sumname} with ID: #{sumobj.id.to_s}"
+			unless sumobj.has_key?('status')
+				@summoner.summoner_id = sumobj['id'].to_s
+				Rails.logger.info "Found Summoner #{sumname} with ID: #{sumobj['id'].to_s}"
 				if @summoner.save
 					flash[:success] = "Summoner created successful"
 					format.html { redirect_to summoners_path }
@@ -58,6 +61,7 @@ class SummonersController < ApplicationController
 				end
 			else
 				Rails.logger.info "Summoner could not be found"
+				Rails.logger.debug sumobj.inspect
 				flash[:error] = "Summoner could not be found"
 				format.html { render action: 'new' }
 			end
@@ -86,19 +90,17 @@ class SummonersController < ApplicationController
 	# Get match history
 	def summary
 		@summoner = Summoner.find(params[:id])
-		client = RiotLolApi::Client.new(:region => @summoner.region)
-		sumobj = client.get_summoner_by_id @summoner.summoner_id
-		@stats = sumobj.stat_summaries
+		client = Taric.client(:region => @summoner.region)
+		@stats = client.summary_stats(summoner_id: @summoner.summoner_id).body
 	end
 
 	def games
 		@summoner = Summoner.find(params[:id])
-		client = RiotLolApi::Client.new(:region => @summoner.region)
-		sumobj = client.get_summoner_by_id @summoner.summoner_id
+		@client = Taric.client(:region => @summoner.region)
 		@summoners = Summoner.all
-		@games = sumobj.games
-		@champions = client.get_all_champions({},false,"en_US")
-		@items = client.get_all_items({},"en_US")
+		@games = @client.recent_games(:summoner_id => @summoner.summoner_id).body
+		@champions = @client.static_champions(data_by_id: true, champ_data_option: 'all').body['data']
+		@items = @client.static_items.body['data']
 	end
 
 	private
