@@ -11,13 +11,14 @@ gem 'bootsnap'
 gem 'listen'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.7'
+gem 'sass-rails'
+gem 'sprockets'
 
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '>= 4.2'
+gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer'

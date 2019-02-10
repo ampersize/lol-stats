@@ -46,7 +46,7 @@ class SummonersController < ApplicationController
 		# Read Summoner name and then use it to get the corresponding
 		# summoner ID from riot
 		Rails.logger.info "Searching for summoner name " + sumname
-		sumobj = client.summoners_by_names(summoner_names: sumname).body
+		sumobj = client.summoner_by_names(summoner_names: sumname).body
 		Rails.logger.debug sumobj.inspect
 		respond_to do |format|
 			unless sumobj.has_key?('status')
