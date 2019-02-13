@@ -11,39 +11,8 @@
 
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "scaffold";
 @import "bootstrap";
 
-.navbar-brand {
-	font-size: inherit;
-}
-
-.column {
-	@extend .col-md-6;
-	@extend .text-center;
-}
-.form {
-	@extend .col-md-6;
-}
-.form-centered {
-	@extend .col-md-6;
-	@extend .text-center;
-}
-.submit {
-	@extend .btn;
-	@extend .btn-primary;
-	@extend .btn-lg;
-}
-
-.main {
-	@extend .container;
-	padding-bottom: 80px;
-}
-
-section {
-	@extend .row;
-	margin-top: 20px;
-}
 
 /* White icon */
 .white, .white a, .white a:visited {
