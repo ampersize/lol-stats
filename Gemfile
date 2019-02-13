@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.2'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.3', '< 1.4'
 
 # bootsnap
 gem 'bootsnap'
@@ -21,7 +21,8 @@ gem 'uglifier'
 gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer'
+# gem 'therubyracer'
+gem 'mini_racer'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -30,8 +31,8 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7'
-
+#gem 'jbuilder', '~> 2.7'
+gem 'jbuilder'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -50,11 +51,11 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'less-rails' 
-gem 'twitter-bootstrap-rails'
+gem 'bootstrap'
+gem 'font-awesome-sass', '~> 5.6.1'
+
 
 # LOL
 # gem 'riot_lol_api'
 gem 'taric'
 gem 'typhoeus'
-gem 'font-awesome-rails'
