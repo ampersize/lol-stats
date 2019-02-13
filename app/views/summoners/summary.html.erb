@@ -1,44 +1,44 @@
 <%- model_class = Summoner -%>
 <div class="page-header">
-	<h1><%=t '.title', :default => model_class.model_name.human.titleize %>: <%= @summoner.name %></h1>
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %>: <%= @summoner.name %></h1>
 </div>
 
 <p>Select game type:&nbsp;
 <% @stats['playerStatSummaries'].each do |item| %>
-	<a href="#<%= item['playerStatSummaryType'] %>"><%= item['playerStatSummaryType'] %></a> &middot;&nbsp; 
+  <a href="#<%= item['playerStatSummaryType'] %>"><%= item['playerStatSummaryType'] %></a> &middot;&nbsp; 
 <% end %>
 </p>
 <hr />
 <div class="row">
-	<div class="col-md-1">&nbsp;</div>
-	<div class="col-md-6">
-		<% @stats['playerStatSummaries'].each do |item| %>
-			<h3 id="<%= item['playerStatSummaryType'] %>"><%= item['playerStatSummaryType'] %> (<%= item['wins'] %> Wins)</h3>
-			<br />
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Category</th>
-						<th>Result</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% aggstat = item['aggregatedStats'] %>
-					<% aggstat.each do |key, val| %>
-						<tr>
-							<td><%= key.gsub(/[A-Z]/) {|c| " " + c } %></td>
-							<td><%= val %></td>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
-			<p class="text-right"<small>last update: <%= Time.at(item['modifyDate'] / 1000) %></span></p>
-			<hr />
-			<br />
-		<% end %>
-	</div>
-	<div class="col-md-1">&nbsp;</div>
+  <div class="col-md-1">&nbsp;</div>
+  <div class="col-md-6">
+    <% @stats['playerStatSummaries'].each do |item| %>
+      <h3 id="<%= item['playerStatSummaryType'] %>"><%= item['playerStatSummaryType'] %> (<%= item['wins'] %> Wins)</h3>
+      <br />
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% aggstat = item['aggregatedStats'] %>
+          <% aggstat.each do |key, val| %>
+            <tr>
+              <td><%= key.gsub(/[A-Z]/) {|c| " " + c } %></td>
+              <td><%= val %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <p class="text-right"<small>last update: <%= Time.at(item['modifyDate'] / 1000) %></span></p>
+      <hr />
+      <br />
+    <% end %>
+  </div>
+  <div class="col-md-1">&nbsp;</div>
 </div>
 <div class="form-actions">
-	<%= link_to t('.back', :default => t("helpers.links.back")), summoners_path, :class => 'btn btn-default'  %>
+  <%= link_to t('.back', :default => t("helpers.links.back")), summoners_path, :class => 'btn btn-primary'  %>
 </div>
