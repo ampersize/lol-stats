@@ -45,8 +45,14 @@ GEM
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
-    bootsnap (1.3.2)
+    autoprefixer-rails (9.4.7)
+      execjs
+    bootsnap (1.4.0)
       msgpack (~> 1.0)
+    bootstrap (4.3.0)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     builder (3.2.3)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -55,7 +61,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    commonjs (0.2.7)
     concurrent-ruby (1.1.4)
     crass (1.0.4)
     erubi (1.8.0)
@@ -70,9 +75,9 @@ GEM
       faraday (~> 0.9)
       faraday_middleware (>= 0.9.1, < 1.0)
       oj (>= 2.0, < 4.0)
-    ffi (1.10.0)
-    font-awesome-rails (4.7.0.4)
-      railties (>= 3.2, < 6.0)
+    ffi (1.9.25)
+    font-awesome-sass (5.6.1)
+      sassc (>= 1.11)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.5.3)
@@ -84,14 +89,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    less (2.6.0)
-      commonjs (~> 0.2.7)
-    less-rails (2.8.0)
-      actionpack (>= 4.0)
-      less (~> 2.6.0)
-      sprockets (> 2, < 4)
-      tilt
-    libv8 (3.16.14.19)
+    libv8 (6.7.288.46.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -108,6 +106,8 @@ GEM
     mimemagic (0.3.3)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
+    mini_racer (0.2.4)
+      libv8 (>= 6.3)
     minitest (5.11.3)
     msgpack (1.2.6)
     multi_json (1.13.1)
@@ -116,6 +116,7 @@ GEM
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     oj (2.18.5)
+    popper_js (1.14.5)
     public_suffix (3.0.3)
     rack (2.0.6)
     rack-test (1.1.0)
@@ -149,7 +150,6 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     rdoc (6.1.1)
-    ref (2.0.0)
     ruby_dep (1.5.0)
     sass (3.7.3)
       sass-listen (~> 4.0.0)
@@ -162,6 +162,15 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (2.0.0)
+      ffi (~> 1.9.6)
+      rake
+    sassc-rails (2.1.0)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     sdoc (1.0.0)
       rdoc (>= 5.0)
     sprockets (3.7.2)
@@ -171,27 +180,19 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.0)
+    sqlite3 (1.3.13)
     taric (1.0.0)
       addressable (~> 2.5)
       faraday_middleware (~> 0.9)
       faraday_middleware-parse_oj (~> 0.3.0)
       memoist (~> 0.11)
       oj (~> 2.18)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    twitter-bootstrap-rails (4.0.0)
-      actionpack (~> 5.0, >= 5.0.1)
-      execjs (~> 2.7)
-      less-rails (~> 2.8, >= 2.8.0)
-      railties (~> 5.0, >= 5.0.1)
     typhoeus (1.3.1)
       ethon (>= 0.9.0)
     tzinfo (1.2.5)
@@ -207,21 +208,20 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap
   coffee-rails
-  font-awesome-rails
-  jbuilder (~> 2.7)
+  font-awesome-sass (~> 5.6.1)
+  jbuilder
   jquery-rails
-  less-rails
   listen
+  mini_racer
   rails (~> 5.2)
   sass-rails
   sdoc
   sprockets
-  sqlite3
+  sqlite3 (~> 1.3, < 1.4)
   taric
-  therubyracer
   turbolinks
-  twitter-bootstrap-rails
   typhoeus
   uglifier
 
