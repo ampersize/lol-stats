@@ -1,0 +1,21 @@
+<%# navigation styled for Bootstrap 4.0 %>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="/"><img height="24px" src="/assets/lol.png"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <%= render 'layouts/navigation_links' %>
+    </ul>
+    <%= form_tag(summoners_path, :method => "get", id: "search-form", class: 'navbar-form') do %>
+      <div class="input-group">
+        <%= text_field_tag :search, params[:search], placeholder: "Search Summoners", :class => 'form-control' %>
+        <div class="input-group-btn">
+          <%= submit_tag "Search", :class => 'btn btn-secondary my-2 my-sm-0' %>
+          <%= link_to t('.new', :default => t("helpers.links.new")), new_summoner_path, :class => 'btn btn-primary my-2 my-sm-0' %>
+        </div>
+      </div>
+    <% end %>
+</nav>
