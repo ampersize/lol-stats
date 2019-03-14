@@ -20,3 +20,6 @@ Gemfile.lock
 # apple
 .DS_Store
 *.swp
+
+# vscode
+/.vscode
